@@ -9,10 +9,8 @@ import static com.codeborne.selenide.Selenide.*;
 public class FindSortAssertsionsInSelenideGithubTest {
     @BeforeAll
     static void beforeAll() {
-        //Configuration.holdBrowserOpen = true;
         Configuration.baseUrl = "https://github.com/";
-        //Configuration.pageLoadStrategy = "eager";
-        //Configuration.timeout = 5000; // секунды
+        Configuration.browserSize = "1920X1000";
 
     }
 
@@ -34,7 +32,18 @@ public class FindSortAssertsionsInSelenideGithubTest {
         $(".markdown-body ul li").sibling(6).$("a").click();
 
         //Проверьте что внутри есть пример кода для JUnit5
-        $("#user-content-3-using-junit5-extend-test-class").shouldHave(text("Junit5"));
+        $("#user-content-3-using-junit5-extend-test-class").scrollIntoView(true);
+        $("#user-content-3-using-junit5-extend-test-class").sibling(0).shouldHave(text("@ExtendWith({SoftAssertsExtension.class})\n" +
+                "class Tests {\n" +
+                "  @Test\n" +
+                "  void test() {\n" +
+                "    Configuration.assertionMode = SOFT;\n" +
+                "    open(\"page.html\");\n" +
+                "\n" +
+                "    $(\"#first\").should(visible).click();\n" +
+                "    $(\"#second\").should(visible).click();\n" +
+                "  }\n" +
+                "}"));
 
 
     }
